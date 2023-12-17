@@ -17,12 +17,14 @@ class _WeatherOnlyPageState extends State<WeatherOnlyPage> {
   TextEditingController passwordController = TextEditingController();
 
   Weather? _weather;
+
   
 
-  _fetchWeather() async{
+  _fetchWeather(String cityName) async{
     try{
+      print("this is being EXECUTED");
       String city = nameController.text  ;
-      final weather = await _weatherService.getWether('Chennai');
+      final weather = await _weatherService.getWether(cityName);
       setState(() {
         _weather = weather;
       });
@@ -34,14 +36,7 @@ class _WeatherOnlyPageState extends State<WeatherOnlyPage> {
   }
 
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    _fetchWeather();
-  }
-
+  
 
 
 
@@ -49,6 +44,7 @@ class _WeatherOnlyPageState extends State<WeatherOnlyPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      resizeToAvoidBottomInset : false,
       body: Center(
       
         child: Column(
@@ -85,11 +81,17 @@ class _WeatherOnlyPageState extends State<WeatherOnlyPage> {
                 ),
               ),
             ),
-            
 
-            
+            ElevatedButton(onPressed:() {
+              print("f");
+              String new_city = nameController.text;
+              _fetchWeather(new_city);
 
-            SizedBox(height: 180),
+            }, 
+            child: Text("Submit")),
+
+
+            SizedBox(height: 120),
 
             Text(_weather?.cityName ?? "Loading" , style: TextStyle(fontSize: 35),),
             Text(_weather?.StateName ?? "Loading", style: TextStyle(fontSize: 35)),
